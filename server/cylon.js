@@ -2,45 +2,27 @@
 
 Meteor.startup(function () {
 
-    Cylon.robot({
-        name: 'Number Six',
-        description: 'Number Six is a humanoid Cylon who plays several key roles in Cylon society. Number Sixes are typically sensual and use seduction in infiltration.',
+  Cylon.robot({
+    connections: {
+      arduino: { adaptor: 'firmata', port: '/dev/tty.usbmodem1411' }
+    },
 
-        // you need to have connection with Arduino board to run this demo app
-        // or you can comment connections and devices and references in functions
-        // connections: {
-        //   arduino: { adaptor: 'firmata', port: '/dev/ttyACM0' }
-        // },
+    devices: {
+      led9: { driver: 'led', pin: 9 },
+      led10: { driver: 'led', pin: 10 },
+      led11: { driver: 'led', pin: 11 },
+      led12: { driver: 'led', pin: 12 },
+      led13: { driver: 'led', pin: 13 }
+    },
 
-        // devices: {
-        //   redLed: { driver: 'led', pin: 13 },
-        //   yellowLed: { driver: 'led', pin: 12 }
-        // },
-
-        redLed: function () {
-            // this.devices.redLed.toggle();
-            return 'Cylon ' + this.name + ' toggles red led';
-        },
-
-        yellowLed: function () {
-            // this.devices.yellowLed.toggle();
-            return 'Cylon ' + this.name + ' toggles yellow led';
-        },
-
-        toggleAll: function () {
-            // this.devices.redLed.toggle();
-            // this.devices.yellowLed.toggle();
-            return 'Cylon ' + this.name + ' toggles red and yellow led';
-        },
-
-        commands: function () {
-            return {
-                'Toggle red Led': this.redLed,
-                'Toggle yellow Led': this.yellowLed,
-                'Toggle all': this.toggleAll
-            };
-        }
-    }).start();
+    work: function(my) {
+      every((1).second(), my.led9.toggle);
+      every((1).second(), my.led10.toggle);
+      every((1).second(), my.led11.toggle);
+      every((1).second(), my.led12.toggle);
+      every((1).second(), my.led13.toggle);
+    }
+  }).start();
 
     // Cylon.robot({
     //     name: 'Number Eight',
